@@ -1,1 +1,1 @@
-### Aim of the experiment
+The objective of this experiment is to demonstrate the ability of a multilayer feedforward neural network (MLFFNN) in solving linearly inseparable pattern classification problems. 
