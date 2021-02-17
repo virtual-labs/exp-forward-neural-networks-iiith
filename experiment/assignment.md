@@ -1,0 +1,5 @@
+- Comment on the nature of the error surface for a multilayer feedforward neural network.
+- Discuss various interpretations of the results of backpropagation learning.
+- What is meant by generalization in feedforward neural networks? Why should it depend on the size and efficiency of training set, architecture of the network and the complexity of the problem?
+- Generalize the XOR problem to a parity problem for N (\(\gt\)2) variables by considering a network for the two variables first, and then extending the network considering the output of the first network as one variable and the third variable as another. Repeat this for N=4 and design a network for solving the parity problem for 4 variables.
+
