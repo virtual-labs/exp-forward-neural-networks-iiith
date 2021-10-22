@@ -1,1 +1,1 @@
-## Multilayer feedforward neural networks
+## Multilayer Feedforward Neural Networks
