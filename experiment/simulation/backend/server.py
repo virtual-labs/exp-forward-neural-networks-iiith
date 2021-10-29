@@ -96,7 +96,7 @@ def exp(num):
     images = read_all_pngs(num, uid)
 
     result = ""
-    if num == 4 and data["isTrain"] == "0" and int(data["numberOfBits"]) > -1:
+    if num == "mlfnn" and data["isTrain"] == "0" and int(data["numberOfBits"]) > -1:
         result = read_result(num, uid)
 
     return jsonify(images=images, result=result)
@@ -132,7 +132,8 @@ def exp_part(num, part):
         data["token"] = uid
         res = runner.runexp(data, part)
         return res
-    except Exception:
+    except Exception as e:
+        print(e)
         return "Invalid data for given experiment", 400
 
 
