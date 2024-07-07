@@ -1,5 +1,5 @@
 window.SERVER =
-  "https://super-bassoon-4x7w79gv65jhjvxx-80.app.github.dev/";
+  "svc-test.vlabs.ac.in/octave-ann";
 
 function submitForm() {
   const $form = $('form[name="myform"]');
