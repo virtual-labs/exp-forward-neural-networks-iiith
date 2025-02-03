@@ -1,7 +1,8 @@
-window.SERVER =
-  "svc-test.vlabs.ac.in/octave-ann";
+// window.SERVER =
+//   "svc-test.vlabs.ac.in/octave-ann";
 
 function submitForm() {
+  const SERVER = window.vlabsConfig.service["VLAB_SVC_OCTAVE_ANN"];
   const $form = $('form[name="myform"]');
 
   let args = $form.serializeArray().reduce((prev, cur) => {
@@ -9,46 +10,46 @@ function submitForm() {
   }, {});
 
   if (window.extraArgs) args = { ...args, ...window.extraArgs() };
+    console.log(SERVER.url + "/exp-" + window.EXP_NAME),
+      $.ajax({
+        url: SERVER.url + "/exp-" + window.EXP_NAME,
+        type: "POST",
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+        dataType: "json",
+        data: JSON.stringify(args),
+        contentType: "application/json",
+        success: function (data, status, xhr) {
+          if (status === "success") {
+            if (data.error) console.error(data.error);
+            else {
+              const $container = document.querySelector(".image-container");
+              while ($container.firstElementChild)
+                $container.removeChild($container.firstElementChild);
+              const $result = $("#result");
+              $result.html("");
 
-  $.ajax({
-    url: SERVER + "/exp-" + window.EXP_NAME,
-    type: "POST",
-    headers: {
-      token: localStorage.getItem("token"),
-    },
-    dataType: "json",
-    data: JSON.stringify(args),
-    contentType: "application/json",
-    success: function (data, status, xhr) {
-      if (status === "success") {
-        if (data.error) console.error(data.error);
-        else {
-          const $container = document.querySelector(".image-container");
-          while ($container.firstElementChild)
-            $container.removeChild($container.firstElementChild);
-          const $result = $("#result");
-          $result.html("");
+              if (data.images) {
+                for (let i = 1; i <= data.images.length; i++) {
+                  const img = document.createElement("img");
+                  img.setAttribute("width", "600");
+                  img.classList.add("my-2");
+                  img.src = "data:image/png;base64," + data.images[i - 1];
+                  $container.appendChild(img);
+                }
+              }
 
-          if (data.images) {
-            for (let i = 1; i <= data.images.length; i++) {
-              const img = document.createElement("img");
-              img.setAttribute("width", "600");
-              img.classList.add("my-2");
-              img.src = "data:image/png;base64," + data.images[i - 1];
-              $container.appendChild(img);
+              if (data.result) {
+                $result.html(data.result);
+              }
             }
           }
-
-          if (data.result) {
-            $result.html(data.result);
-          }
-        }
-      }
-    },
-    error: function (err) {
-      console.log(err);
-    },
-  });
+        },
+        error: function (err) {
+          console.log(err);
+        },
+      });
 }
 
 function submit(e) {
@@ -71,10 +72,13 @@ function appendOptions(elm, list) {
 }
 
 function onload() {
+  const SERVER = window.vlabsConfig.service["VLAB_SVC_OCTAVE_ANN"];
+  console.log(onload);
+  console.log(SERVER.url + "/exp-" + window.EXP_NAME);
   if (document.readyState === "complete") {
     if (!localStorage.getItem("token")) {
       $.get(
-        `${SERVER}/get_token`,
+        `${SERVER.url}/get_token`,
         (success = function (data) {
           localStorage.setItem("token", data);
         })
